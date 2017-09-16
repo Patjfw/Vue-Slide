@@ -1,4 +1,4 @@
-# y
+# vue-slide
 
 > A Vue.js project
 
