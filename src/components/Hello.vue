@@ -22,9 +22,4 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-  div#container
-    flex-grow: 1
-    display: flex
-    flex-direction: column
-    align-items: center
 </style>
