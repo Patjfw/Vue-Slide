@@ -1,28 +1,34 @@
 <template>
   <div id="indices">
     <ul>
-      <li v-for="n in len" :key="n" :ref="'item'+n">
-        <a href="#"></a>
+      <li v-for="n in len" :key="n" :ref="'item'+n" :class="{'active': n === imgIndex}" @click="jump(n)">
+        <!-- <a href="#"></a> -->
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import { bus } from '../EventBus.js'
+  // import { bus } from '../EventBus.js'
   export default {
     name: 'Indices',
     props: {
       len: Number
     },
-    mounted () {
-      this.init()
+    computed: {
+      imgIndex () {
+        if (this.$store.state.index < 1) {
+          return this.$store.state.length - 2
+        } else if (this.$store.state.index > this.$store.state.length) {
+          return 1
+        }
+        return this.$store.state.index
+      }
     },
     methods: {
-      init () {
-        bus.$on('transitionend', () => {
-          // this.$refs['item' + this.$store.state.index][0]
-        })
+      jump (index) {
+        console.log(index)
+        this.$store.commit('update', index)
       }
     }
   }

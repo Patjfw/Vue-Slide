@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <div id="slide_wrap">
+    <div id="slide_wrap" @mouseover="suspend" @mouseout="play">
       <image-group :path=path :imageArr=imageArr></image-group>
       <div id="slide_info_wrap">
         <p id="slide_info">{{infoArr[index]}}</p>
@@ -19,6 +19,7 @@
   import ImageGroup from './slides/Images'
   import Indices from './slides/Indices'
   import Buttons from './slides/Buttons'
+  import {bus} from './EventBus.js'
 
   Vue.use(Vuex)
 
@@ -92,6 +93,14 @@
       },
       index () {
         return this.$store.state.index
+      }
+    },
+    methods: {
+      play () {
+        bus.$emit('play')
+      },
+      suspend () {
+        bus.$emit('suspend')
       }
     },
     components: {

@@ -19,7 +19,8 @@
       return {
         interval: null,
         // 回跳标识
-        jumpTo: null
+        jumpTo: null,
+        playing: false
       }
     },
     computed: {
@@ -30,7 +31,7 @@
           transition = 'none'
           this.jumpTo = null
         } else {
-          transition = 'all 1.2s ease-out'
+          transition = 'all 0.6s ease-out'
         }
 
         return {
@@ -41,10 +42,12 @@
     },
     mounted () {
       this.play()
-    },
-
-    beforeDestroy () {
-      this.destroy()
+      bus.$on('play', () => {
+        this.play()
+      })
+      bus.$on('suspend', () => {
+        this.suspend()
+      })
     },
     methods: {
       resetPos (event) {
@@ -59,20 +62,23 @@
           this.$store.commit('update', 1)
           // console.log('end')
         }
-        bus.$emit('transitionend')
       },
       play () {
-        this.interval = setInterval(
-          () => {
-            this.$store.commit('next')
-          }, this.$store.state.playSpeed
-        )
+        if (!this.playing) {
+          this.playing = true
+          console.log('play')
+          this.interval = setInterval(
+            () => {
+              this.$store.commit('next')
+            }, this.$store.state.playSpeed
+          )
+        }
       },
-      destroy () {
+      suspend () {
+        console.log('suspend')
+        clearInterval(this.interval)
+        this.playing = false
         this.interval = null
-      },
-      jump () {
-
       }
     }
   }

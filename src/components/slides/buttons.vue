@@ -1,13 +1,21 @@
 <template>
   <div id="buttons_wrap">
-    <div class="btn_triangle left"></div>
-    <div class="btn_triangle right"></div>
+    <div class="btn_triangle left" @click="prev"></div>
+    <div class="btn_triangle right" @click="next"></div>
   </div>
 </template>
 
 <script>
   export default{
-    name: 'Buttons'
+    name: 'Buttons',
+    methods: {
+      prev () {
+        this.$store.commit('prev')
+      },
+      next () {
+        this.$store.commit('next')
+      }
+    }
   }
 </script>
 
