@@ -35,7 +35,7 @@
         }
 
         return {
-          'left': -((this.$store.state.index) * 480) + 'px',
+          'left': -(this.$store.state.index * this.$store.state.imgSize['width']) + 'px',
           'transition': transition
         }
       }
@@ -51,13 +51,12 @@
     },
     methods: {
       resetPos (event) {
-        if (event.target.offsetLeft >= 0) {
-          let tail = this.$store.state.length - 2
+        if (this.$store.state.index === 0) {
+          let tail = this.$store.state.length
           this.jumpTo = tail
           this.$store.commit('update', tail)
           // console.log('start')
-        } else if (event.target.offsetLeft <=
-          -this.$store.state.imgSize['width'] * (this.$store.state.length + 1)) {
+        } else if (this.$store.state.index === this.$store.state.length + 1) {
           this.jumpTo = 1
           this.$store.commit('update', 1)
           // console.log('end')
@@ -66,7 +65,7 @@
       play () {
         if (!this.playing) {
           this.playing = true
-          console.log('play')
+          // console.log('play')
           this.interval = setInterval(
             () => {
               this.$store.commit('next')
@@ -75,7 +74,7 @@
         }
       },
       suspend () {
-        console.log('suspend')
+        // console.log('suspend')
         clearInterval(this.interval)
         this.playing = false
         this.interval = null
